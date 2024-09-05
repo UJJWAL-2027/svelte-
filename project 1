@@ -1,0 +1,51 @@
+<script>
+    let newTask = '';
+    let tasks = [];
+
+    function addTask() {
+        if (newTask.trim()) {
+            tasks = [...tasks, { text: newTask, id: Date.now() }];
+            newTask = '';
+        }
+    }
+
+    function removeTask(id) {
+        tasks = tasks.filter(task => task.id !== id);
+    }
+</script>
+
+<style>
+    .task-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .task-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+    }
+
+    button {
+        margin-left: 10px;
+    }
+</style>
+
+<main>
+    <h1>To-Do List</h1>
+    <input 
+        type="text" 
+        bind:value={newTask} 
+        placeholder="Add a new task" 
+    />
+    <button on:click={addTask}>Add</button>
+
+    <ul class="task-list">
+        {#each tasks as task (task.id)}
+            <li>
+                {task.text}
+                <button on:click={() => removeTask(task.id)}>Remove</button>
+            </li>
+        {/each}
+    </ul>
+</main>
